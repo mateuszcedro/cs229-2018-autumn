@@ -4,7 +4,7 @@ import util
 from p01b_logreg import LogisticRegression
 
 # Character to replace with sub-problem letter in plot_path/pred_path
-WILDCARD = 'X'
+WILDCARD = "X"
 
 
 def main(train_path, valid_path, test_path, pred_path):
@@ -21,9 +21,9 @@ def main(train_path, valid_path, test_path, pred_path):
         test_path: Path to CSV file containing test set.
         pred_path: Path to save predictions.
     """
-    pred_path_c = pred_path.replace(WILDCARD, 'c')
-    pred_path_d = pred_path.replace(WILDCARD, 'd')
-    pred_path_e = pred_path.replace(WILDCARD, 'e')
+    pred_path_c = pred_path.replace(WILDCARD, "c")
+    pred_path_d = pred_path.replace(WILDCARD, "d")
+    pred_path_e = pred_path.replace(WILDCARD, "e")
 
     # *** START CODE HERE ***
     # Part (c): Train and test on true labels

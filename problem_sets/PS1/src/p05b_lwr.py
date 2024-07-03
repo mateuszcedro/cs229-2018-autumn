@@ -41,9 +41,7 @@ class LocallyWeightedLinearRegression(LinearModel):
         self.y = None
 
     def fit(self, x, y):
-        """Fit LWR by saving the training set.
-
-        """
+        """Fit LWR by saving the training set."""
         # *** START CODE HERE ***
         # *** END CODE HERE ***
 

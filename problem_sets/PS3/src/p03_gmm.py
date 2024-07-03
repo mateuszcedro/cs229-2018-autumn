@@ -2,28 +2,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-PLOT_COLORS = ['red', 'green', 'blue', 'orange']  # Colors for your plots
-K = 4           # Number of Gaussians in the mixture model
+PLOT_COLORS = ["red", "green", "blue", "orange"]  # Colors for your plots
+K = 4  # Number of Gaussians in the mixture model
 NUM_TRIALS = 3  # Number of trials to run (can be adjusted for debugging)
 UNLABELED = -1  # Cluster label for unlabeled data points (do not change)
 
 
 def main(is_semi_supervised, trial_num):
     """Problem 3: EM for Gaussian Mixture Models (unsupervised and semi-supervised)"""
-    print('Running {} EM algorithm...'
-          .format('semi-supervised' if is_semi_supervised else 'unsupervised'))
+    print(
+        "Running {} EM algorithm...".format(
+            "semi-supervised" if is_semi_supervised else "unsupervised"
+        )
+    )
 
     # Load dataset
-    train_path = os.path.join('..', 'data', 'ds3_train.csv')
+    train_path = os.path.join("..", "data", "ds3_train.csv")
     x, z = load_gmm_dataset(train_path)
     x_tilde = None
 
     if is_semi_supervised:
         # Split into labeled and unlabeled examples
         labeled_idxs = (z != UNLABELED).squeeze()
-        x_tilde = x[labeled_idxs, :]   # Labeled examples
-        z = z[labeled_idxs, :]         # Corresponding labels
-        x = x[~labeled_idxs, :]        # Unlabeled examples
+        x_tilde = x[labeled_idxs, :]  # Labeled examples
+        z = z[labeled_idxs, :]  # Corresponding labels
+        x = x[~labeled_idxs, :]  # Unlabeled examples
 
     # *** START CODE HERE ***
     # (1) Initialize mu and sigma by splitting the m data points uniformly at random
@@ -107,8 +110,8 @@ def run_semi_supervised_em(x, x_tilde, z, w, phi, mu, sigma):
         example x^(i) belonging to the j-th Gaussian in the mixture.
     """
     # No need to change any of these parameters
-    alpha = 20.  # Weight for the labeled examples
-    eps = 1e-3   # Convergence threshold
+    alpha = 20.0  # Weight for the labeled examples
+    eps = 1e-3  # Convergence threshold
     max_iter = 1000
 
     # Stop when the absolute change in log-likelihood is < eps
@@ -142,17 +145,21 @@ def plot_gmm_preds(x, z, with_supervision, plot_id):
     NOTE: You do not need to edit this function.
     """
     plt.figure(figsize=(12, 8))
-    plt.title('{} GMM Predictions'.format('Semi-supervised' if with_supervision else 'Unsupervised'))
-    plt.xlabel('x_1')
-    plt.ylabel('x_2')
+    plt.title(
+        "{} GMM Predictions".format(
+            "Semi-supervised" if with_supervision else "Unsupervised"
+        )
+    )
+    plt.xlabel("x_1")
+    plt.ylabel("x_2")
 
     for x_1, x_2, z_ in zip(x[:, 0], x[:, 1], z):
-        color = 'gray' if z_ < 0 else PLOT_COLORS[int(z_)]
+        color = "gray" if z_ < 0 else PLOT_COLORS[int(z_)]
         alpha = 0.25 if z_ < 0 else 0.75
-        plt.scatter(x_1, x_2, marker='.', c=color, alpha=alpha)
+        plt.scatter(x_1, x_2, marker=".", c=color, alpha=alpha)
 
-    file_name = 'p03_pred{}_{}.pdf'.format('_ss' if with_supervision else '', plot_id)
-    save_path = os.path.join('output', file_name)
+    file_name = "p03_pred{}_{}.pdf".format("_ss" if with_supervision else "", plot_id)
+    save_path = os.path.join("output", file_name)
     plt.savefig(save_path)
 
 
@@ -170,15 +177,15 @@ def load_gmm_dataset(csv_path):
     """
 
     # Load headers
-    with open(csv_path, 'r') as csv_fh:
-        headers = csv_fh.readline().strip().split(',')
+    with open(csv_path, "r") as csv_fh:
+        headers = csv_fh.readline().strip().split(",")
 
     # Load features and labels
-    x_cols = [i for i in range(len(headers)) if headers[i].startswith('x')]
-    z_cols = [i for i in range(len(headers)) if headers[i] == 'z']
+    x_cols = [i for i in range(len(headers)) if headers[i].startswith("x")]
+    z_cols = [i for i in range(len(headers)) if headers[i] == "z"]
 
-    x = np.loadtxt(csv_path, delimiter=',', skiprows=1, usecols=x_cols, dtype=float)
-    z = np.loadtxt(csv_path, delimiter=',', skiprows=1, usecols=z_cols, dtype=float)
+    x = np.loadtxt(csv_path, delimiter=",", skiprows=1, usecols=x_cols, dtype=float)
+    z = np.loadtxt(csv_path, delimiter=",", skiprows=1, usecols=z_cols, dtype=float)
 
     if z.ndim == 1:
         z = np.expand_dims(z, axis=-1)
@@ -186,7 +193,7 @@ def load_gmm_dataset(csv_path):
     return x, z
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     np.random.seed(229)
     # Run NUM_TRIALS trials to see how different initializations
     # affect the final predictions with and without supervision
